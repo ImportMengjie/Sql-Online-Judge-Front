@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import StudentHome from '@/components/student/Index'
 import AdminHome from '@/components/admin/Index'
+import StudentManage from '@/components/admin/StudentManage'
 
 Vue.use(Router)
 
@@ -17,7 +18,13 @@ export default new Router({
     {
       path: '/admin',
       name: 'admin/index',
-      component: AdminHome
+      component: AdminHome,
+      children:[
+        {
+          path: 'StudentManage',
+          component: StudentManage
+        }
+      ]
     },
     {
       path: '/student',

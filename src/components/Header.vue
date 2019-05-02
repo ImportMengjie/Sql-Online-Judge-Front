@@ -1,7 +1,7 @@
 <template>
   <div>
     {{this.$store.getters.Usertype}}
-    <el-button @click="logout">退出</el-button>
+    <el-link @click.prevent="logout" type="danger">退出</el-link>
   </div>
 
 </template>
