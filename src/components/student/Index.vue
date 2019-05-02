@@ -4,10 +4,10 @@
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="['1']">
         <el-submenu index="1">
-          <template slot="title"><i class="el-icon-setting"></i>admin</template>
+          <template slot="title"><i class="el-icon-setting"></i>student</template>
           <el-menu-item-group>
             <el-menu-item index="1-1" :key="'Submit'" @click="routerToMain('Submit')">练习</el-menu-item>
-            <el-menu-item index="1-2">统计</el-menu-item>
+            <el-menu-item index="1-2" @click="routerToMain('Statistics')">统计</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -33,7 +33,7 @@
       components: {Header},
       methods:{
         routerToMain(name){
-          this.$router.push('/admin/'+name)
+          this.$router.push('/student/'+name)
         }
       }
     }

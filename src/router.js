@@ -3,6 +3,8 @@ import Router from 'vue-router'
 // import Home from './views/Home.vue'
 import Home from '@/components/Home'
 import StudentHome from '@/components/student/Index'
+import Submit from '@/components/student/Submit'
+import Statistics from '@/components/student/Statistics'
 import AdminHome from '@/components/admin/Index'
 import StudentManage from '@/components/admin/StudentManage'
 
@@ -29,20 +31,17 @@ export default new Router({
     {
       path: '/student',
       name: 'student/index',
-      component: StudentHome
+      component: StudentHome,
+      children:[
+        {
+          path: 'Submit',
+          component: Submit
+        },
+        {
+          path: 'Statistics',
+          component: Statistics
+        }
+      ]
     }
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: Home
-    // },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    // }
   ]
 })

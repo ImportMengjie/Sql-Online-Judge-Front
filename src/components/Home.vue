@@ -50,7 +50,7 @@ export default {
       return {
         username:'',
         password:'',
-        usertype:'admin',
+        usertype:'student',
         usertype_list:[
           {
             value:'student',

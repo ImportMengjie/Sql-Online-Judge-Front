@@ -16,7 +16,6 @@
         </el-row>
 
         <el-table :data="studentList" style="width: 100%">
-
             <el-table-column label="id" width="180">
                 <template slot-scope="scope">
                     <el-input v-model="scope.row.id" :disabled="true" size="mini"></el-input>
