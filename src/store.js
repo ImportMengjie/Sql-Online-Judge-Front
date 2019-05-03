@@ -40,8 +40,9 @@ export default new Vuex.Store({
       )
     },
     logout(ctx){
-      ctx.commit('setUsertype','')
-      ctx.commit('setToken','')
+
+        ctx.commit('setUsertype','')
+        ctx.commit('setToken','')
     }
   }
 })

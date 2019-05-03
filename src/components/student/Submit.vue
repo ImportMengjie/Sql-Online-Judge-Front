@@ -78,7 +78,7 @@
                         for(var i=0;i<this.questionList.length;i++){
                             this.questionList[i]['database']=this.databaseMap[this.questionList[i]['idSchema']]
                             var max_score = this.questionList[i]['max_score']
-                            if(this.questionList[i]['score']>=0)
+                            if(max_score['score']>=0)
                                 this.questionList[i]['tag']=this.questionList[i]['score']===max_score['score']?'success':'danger'
                             else
                                 this.questionList[i]['tag']='warning'
@@ -92,7 +92,13 @@
                 })
             },
             handleSubmit(index, row){
-
+                this.$router.push({
+                    name: 'Question',
+                    params:{
+                        'idQuestion':row['id'],
+                        'row': row
+                    }
+                })
             }
 
         }

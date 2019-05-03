@@ -7,6 +7,7 @@ import Submit from '@/components/student/Submit'
 import Statistics from '@/components/student/Statistics'
 import AdminHome from '@/components/admin/Index'
 import StudentManage from '@/components/admin/StudentManage'
+import Question from "./components/student/Question";
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
         {
           path: 'Statistics',
           component: Statistics
+        },
+        {
+          path: 'Question',
+          component: Question,
+          name: 'Question'
         }
       ]
     }
