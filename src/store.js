@@ -8,13 +8,13 @@ export default new Vuex.Store({
   state: {
     usertype: '',
     token: '',
-    errorLogs: ''
+    username:''
 
   },
   getters:{
     Usertype: state=> state.usertype,
     Token: state=>state.token,
-    ErrorLogs: state=>state.errorLogs
+    Username: state =>state.username
   },
   mutations: {
     setUsertype(state,usertype){
@@ -23,6 +23,9 @@ export default new Vuex.Store({
     },
     setToken(state, token){
       state.token=token
+    },
+    setUsername(state,username){
+        state.username=username
     }
   },
   actions: {
@@ -32,6 +35,7 @@ export default new Vuex.Store({
             ).then((response) => {
               context.commit('setToken', response.data['session'])
               context.commit('setUsertype', data['usertype'])
+              context.commit('setUsername', response.data['name'])
               resolve()
             }).catch((response) => {
               reject(response)

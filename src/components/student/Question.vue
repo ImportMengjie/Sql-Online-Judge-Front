@@ -18,10 +18,25 @@
             </el-collapse-item>
 
             <el-collapse-item title="数据库表描述" name="3">
-                <el-row>
-                    数据库表描述
-                    <p></p>
-                </el-row>
+                <el-table :data="tableNameList">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <b>Table Detail:</b>
+                            <el-table :data="props.row.info.cols">
+                                <el-table-column label="Number" prop="[0]"></el-table-column>
+                                <el-table-column label="Column Name" prop="[1]"></el-table-column>
+                                <el-table-column label="Column Type" prop="[2]"></el-table-column>
+                                <el-table-column label="Not Null" prop="[3]"></el-table-column>
+                                <el-table-column label="Default Value" prop="[4]"></el-table-column>
+                                <el-table-column label="PK" prop="[5]"></el-table-column>
+                            </el-table>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column label="Table Name" prop="name"></el-table-column>
+                    <el-table-column label="描述" prop="info.description"></el-table-column>
+
+                </el-table>
             </el-collapse-item>
         </el-collapse>
 
@@ -31,7 +46,7 @@
             <p>your-score: <el-tag :type="result['tag']">{{result['score']}}</el-tag></p>
             <p>拼写错误统计: {{result['spelling_count']}}</p>
             <p>Your Answer: <span v-html="result['errorInfo']"></span></p>
-            <p>Format Answer:<span>{{result['correct']}}</span></p>
+            <p>Format Answer: <span>{{result['correct']}}</span></p>
             <p>语法错误: {{result['syntax_error_msg']}}</p>
         </div>
         <h3>Your Answer?</h3>
@@ -48,7 +63,6 @@
     export default {
         name: "Question",
         data(){
-            console.log(this.$route.params.row)
             return {
                 idQuestion:this.$route.params.idQuestion,
                 questionInfo: this.$route.params.row,
@@ -56,12 +70,17 @@
                 activeNames:['1','2','3'],
                 showResult:false,
                 result:{},
+                tableNameList:[],
+                tableInfo:{},
                 colorMap:{
                     0:'#FFFFFF',
                     1:'#FF0000',
                     2:'#008000'
                 }
             }
+        },
+        mounted(){
+             this.getTables(this.questionInfo.idSchema)
         },
         methods:{
             handleSubmit(){
@@ -73,10 +92,8 @@
                     'session':this.$store.getters.Token,
                     'answer': this.answer
                 }).then((res)=>{
-                    console.log(res.data)
                     this.result=res.data
                     this.result['syntax_error_msg']=this.result['info'].slice(this.result['info'].indexOf('\n')+1)
-                    console.log(this.result['syntax_error_msg'])
                     var erroInfo = this.result['info'].slice(0,this.result['info'].indexOf('\n')).split(' ').map(x=>{
                         return Number(x)
                     })
@@ -114,9 +131,7 @@
                     var ret=template+answer[0]
                     for(var i=1;i<answer.length;i++){
                         if(erroInfo[i-1].toString()!==erroInfo[i].toString()){
-                            ret = ret.format(this.getColor(erroInfo[i-1]))
-                            ret+='</font>'
-                            ret+=template
+                            ret = ret.format(this.getColor(erroInfo[i-1]))+'</font>'+template
                             s=i
                         }
                         ret+=answer[i]
@@ -131,6 +146,21 @@
                 else if (0<x && x<1) return '#FF0000'
                 else if (x===1) return '#008000'
                 else return '#000000'
+            },
+            getTables(idSchema){
+                this.$axios.get('/schema/'+idSchema+'/table',{headers:{'session':this.$store.getters.Token}}).then((res)=>{
+
+                    this.tableNameList=[]
+                    for(var i=0;i<res.data['table_name'].length;i++){
+                        this.tableNameList.push({
+                            'name':res.data['table_name'][i],
+                            'info':res.data['table'][res.data['table_name'][i]]
+                        })
+                    }
+                    this.tableInfo=res.data['table']
+                }).catch(res=>{
+                    this.$message.error(res.toString())
+                })
             }
         }
     }
@@ -139,5 +169,15 @@
 <style scoped>
     .el-row {
         margin-bottom: 20px;
+    }
+
+    .demo-table-expand label {
+        width: 90px;
+        color: #99a9bf;
+    }
+    .demo-table-expand .el-form-item {
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 50%;
     }
 </style>

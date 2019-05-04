@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{this.$store.getters.Usertype}}
+    <b>{{this.$store.getters.Username}}</b>
     <el-link @click.prevent="logout" type="danger">退出</el-link>
   </div>
 

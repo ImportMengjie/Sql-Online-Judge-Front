@@ -33,6 +33,9 @@
       name: "index",
       components: {Header},
       data() {
+        return {
+
+        }
       },
       methods:{
         routerToMain(name){
