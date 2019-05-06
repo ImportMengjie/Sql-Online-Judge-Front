@@ -1,7 +1,6 @@
 <template>
     <div>
 
-
         <el-table :data="tableList" :expand-row-keys="expand_key" :row-key="getRowKeys">
             <el-table-column type="expand" :hidden="true">
                 <template slot-scope="props">
@@ -61,6 +60,20 @@
                 </template>
             </el-table-column>
         </el-table>
+
+        <el-form ref="table_from" :model="table_from">
+
+            <el-form-item label="create sql code">
+                <el-input v-model="table_from.new_table_sql" type="textarea"></el-input>
+            </el-form-item>
+            <el-form-item label="description">
+                <el-input v-model="table_from.new_description" ></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button @click="hanldeNewTable" type="primary">Add</el-button>
+            </el-form-item>
+        </el-form>
+
     </div>
     
 </template>
@@ -78,7 +91,11 @@
                 current_info: 'table',
                 rows: {},
                 expand_key: [],
-                new_rows:[]
+                new_rows:[],
+                table_from:{
+                    new_table_sql:'',
+                    new_description:''
+                }
             }
         },
         mounted() {
@@ -152,6 +169,22 @@
                 }).catch((res)=>{
                     this.$message.error(res.toString())
                 })
+            },
+            hanldeNewTable(){
+
+                this.$axios.post('/schema/'+this.idSchema+'/table',{
+                    'session':this.$store.getters.Token,
+                    'sql':this.table_from.new_table_sql,
+                    'description':this.table_from.new_description
+                }).then((res)=>{
+                    this.$message.success('成功')
+                    this.getTableList()
+                    this.table_from.new_table_sql=''
+                    this.table_from.new_description=''
+                }).catch((res)=>{
+                    this.$message.error(res.toString())
+                })
+
             }
         }
     }
