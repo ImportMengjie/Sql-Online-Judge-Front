@@ -47,7 +47,7 @@
             <p>拼写错误统计: {{result['spelling_count']}}</p>
             <p>Your Answer: <span v-html="result['errorInfo']"></span></p>
             <p>Format Answer: <span>{{result['correct']}}</span></p>
-            <p>语法错误: {{result['syntax_error_msg']}}</p>
+            <p>语法错误: <span style="color:red ;">{{result['syntax_error_msg']}}</span></p>
         </div>
         <h3>Your Answer?</h3>
         <el-input type="textarea" v-model="answer">
@@ -142,10 +142,10 @@
             },
             getColor(x){
                 x = Number(x)
-                if(x===0) return '#FFFFFF'
+                if(x===0) return '#000000'
                 else if (0<x && x<1) return '#FF0000'
                 else if (x===1) return '#008000'
-                else return '#000000'
+                else return '#FFFFFFFF'
             },
             getTables(idSchema){
                 this.$axios.get('/schema/'+idSchema+'/table',{headers:{'session':this.$store.getters.Token}}).then((res)=>{

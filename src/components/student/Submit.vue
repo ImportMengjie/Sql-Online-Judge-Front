@@ -1,21 +1,11 @@
 <template>
     <div>
         <el-table :data="questionList" style="width: 100%">
-            <el-table-column label="id" prop="id" width="180">
-<!--                <template slot-scope="scope">-->
-<!--                </template>-->
-            </el-table-column>
+            <el-table-column label="id" prop="id" width="180"> </el-table-column>
 
-            <el-table-column label="标题" prop="title" width="180">
-<!--                <template slot-scope="scope">-->
-<!--                </template>-->
-            </el-table-column>
+            <el-table-column label="标题" prop="title" width="180"> </el-table-column>
 
-            <el-table-column  label="分数" prop="score" width="180">
-<!--                <template slot-scope="scope">-->
-
-<!--                </template>-->
-            </el-table-column>
+            <el-table-column  label="分数" prop="score" width="180"> </el-table-column>
 
             <el-table-column label="database" width="180">
                 <template slot-scope="scope">
@@ -29,7 +19,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="tag">
+            <el-table-column label="最好成绩">
                 <template slot-scope="scope">
                     <el-popover trigger="hover" placement="top">
                         <p>id: {{ scope.row.max_score.id }}</p>

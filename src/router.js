@@ -7,7 +7,11 @@ import Submit from '@/components/student/Submit'
 import Statistics from '@/components/student/Statistics'
 import AdminHome from '@/components/admin/Index'
 import StudentManage from '@/components/admin/StudentManage'
-import Question from "./components/student/Question";
+import Question from "./components/student/Question"
+import DatabaseManage from "./components/admin/DatabaseManage";
+import QuestionManage from "./components/admin/QuestionManage";
+import TableManage from "./components/admin/TableManage";
+
 
 Vue.use(Router)
 
@@ -26,6 +30,19 @@ export default new Router({
         {
           path: 'StudentManage',
           component: StudentManage
+        },
+        {
+          path: 'DatabaseManage',
+          component: DatabaseManage
+        },
+        {
+          path: 'QuestionManage',
+          component: QuestionManage,
+        },
+        {
+          path: 'TableManage',
+          component: TableManage,
+          name: 'TableManage'
         }
       ]
     },
