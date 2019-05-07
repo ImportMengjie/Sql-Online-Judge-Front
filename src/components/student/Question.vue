@@ -47,6 +47,7 @@
             <p>拼写错误统计: {{result['spelling_count']}}</p>
             <p>Your Answer: <span v-html="result['errorInfo']"></span></p>
             <p>Format Answer: <span>{{result['correct']}}</span></p>
+            <p>Right Answer: <span>{{result['right_answer']}}</span></p>
             <p>语法错误: <span style="color:red ;">{{result['syntax_error_msg']}}</span></p>
         </div>
         <h3>Your Answer?</h3>

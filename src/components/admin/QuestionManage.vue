@@ -89,7 +89,13 @@
                 })
             },
             handleAnswer(index, row){
-
+                this.$router.push({
+                    name: 'AnswerManage',
+                    params:{
+                        'idQuestion':row['id'],
+                        'row': row
+                    }
+                })
             },
             handleDeleteQuestion(index,row){
                 this.$axios.delete('/question/'+row.id,{

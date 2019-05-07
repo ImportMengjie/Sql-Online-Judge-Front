@@ -11,6 +11,7 @@ import Question from "./components/student/Question"
 import DatabaseManage from "./components/admin/DatabaseManage";
 import QuestionManage from "./components/admin/QuestionManage";
 import TableManage from "./components/admin/TableManage";
+import AnswerManage from "./components/admin/AnswerManage";
 
 
 Vue.use(Router)
@@ -43,6 +44,11 @@ export default new Router({
           path: 'TableManage',
           component: TableManage,
           name: 'TableManage'
+        },
+        {
+          path: 'AnswerManage',
+          component: AnswerManage,
+          name: 'AnswerManage'
         }
       ]
     },
