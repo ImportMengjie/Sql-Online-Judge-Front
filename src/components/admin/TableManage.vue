@@ -27,7 +27,7 @@
                             </el-table-column>
                             <el-table-column label="opt">
                                 <template slot-scope="props">
-                                    <el-button size="mini" >删除</el-button>
+                                    <el-button size="mini" @click="handleDeleteRow(props.$index, props.row)">删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -118,15 +118,32 @@
                 })
             },
             handleTableDelete(index, row) {
-                this.$axios.delete('schema/' + this.idSchema + '/table' + row.id, {
+                this.$axios.delete('schema/' + this.idSchema + '/table/' + row.id, {
                     data: {
                         'session': this.$store.getters.Token,
                     }
                 }).then(res => {
                     this.$message.success('success')
+                    this.getTableList()
                 }).catch(res => {
                     this.$message.error(res.toString())
                 })
+            },
+            handleDeleteRow(index, row){
+                this.$axios.delete('/table/'+this.rows.data[index].idTable+'/rows/'+this.rows.data[index].id,{
+                    data:{'session':this.$store.getters.Token}
+                }).then((res)=>{
+                    this.$message.success('成功')
+                    this.$axios.get('table/'+ this.rows.data[index].idTable+'/rows',{headers: {'session': this.$store.getters.Token}}).then(res=>{
+                        this.rows=res.data
+                    }).catch(res=>{
+                        this.$message.error(res.toString())
+                    })
+
+                }).catch((res)=>{
+                    this.$message.error(res.response.data[0]['msg'])
+                })
+
             },
             handleShowRows(index, row){
                 this.$axios.get('table/'+ row.id+'/rows',{headers: {'session': this.$store.getters.Token}}).then(res=>{
@@ -157,8 +174,6 @@
                 this.expand_key.push(row.id)
             },
             handleAddRow(index,row){
-                console.log(row.name)
-
                 this.$axios.post('/table/'+row.id+'/rows',{
                     'session':this.$store.getters.Token,
                     'data':this.tableInfo[row.name]['new_rows'],
@@ -167,7 +182,7 @@
                     this.handleShowRows(index,row)
                     this.tableInfo[row.name]['new_rows']=Array(this.tableInfo[row.name]['new_rows'].length).fill('')
                 }).catch((res)=>{
-                    this.$message.error(res.toString())
+                    this.$message.error(res.response.data[0]['msg'])
                 })
             },
             hanldeNewTable(){
@@ -182,7 +197,7 @@
                     this.table_from.new_table_sql=''
                     this.table_from.new_description=''
                 }).catch((res)=>{
-                    this.$message.error(res.toString())
+                    this.$message.error(res.response.data[0]['msg'])
                 })
 
             }
