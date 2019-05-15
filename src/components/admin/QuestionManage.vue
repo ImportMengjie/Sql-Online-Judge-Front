@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2>问题管理</h2>
         <el-table :data="questionList">
             <el-table-column label="id" prop="id"></el-table-column>
             <el-table-column label="title" prop="title"></el-table-column>

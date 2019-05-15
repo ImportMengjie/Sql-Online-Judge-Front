@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2>答案管理</h2>
         <el-table :data="answerList">
             <el-table-column label="id" prop="id"></el-table-column>
             <el-table-column label="sql" prop="sql"></el-table-column>
@@ -11,6 +12,34 @@
                 </template>
             </el-table-column>
         </el-table>
+
+        <div v-show="showSegment">
+            <h3>Answer ID:{{currentShowAnswerId}}</h3>
+            <el-table :data="segments" >
+                <el-table-column label="id" prop="id"></el-table-column>
+                <el-table-column label="子句" prop="data">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.data" :disabled="!scope.row.edit" size="mini"></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column label="score" prop="score">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.score" :disabled="!scope.row.edit" size="mini"></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column label="extra" prop="extra">
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.extra" :disabled="!scope.row.edit" size="mini"></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column label="opt">
+                    <template slot-scope="scope">
+                        <el-button size="mini" @click="handleEditSegment(scope.$index, scope.row)">{{scope.row.edit?'提交':'编辑'}}</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+        </div>
 
         <el-form ref="newAnswerForm" :model="newAnswerForm">
             <el-form-item label="sql">
@@ -36,7 +65,10 @@
                 answerList: [],
                 newAnswerForm:{
                     'sql':''
-                }
+                },
+                showSegment: false,
+                currentShowAnswerId: -1,
+                segments: []
             }
         },
         mounted(){
@@ -75,8 +107,45 @@
                 })
             },
             handleSegment(index,row){
+                if(this.currentShowAnswerId===row.id && this.showSegment===true){
+                    this.showSegment = false
+                    this.currentShowAnswerId = -1
+                    return
+                }
 
+                this.$axios.get('/answer/'+row.id+'/segment',{headers:{'session':this.$store.getters.Token}}).then(res=>{
+                    this.segments = res.data['data']
+                    for(var i=0;i<this.segments.length;i++){
+                        this.segments[i]['edit'] = false
+                    }
+                    this.showSegment = true
+                    this.currentShowAnswerId = row.id
+                }).catch(res=>{
+                    this.$message.error(res.toString())
+                })
+            },
+            handleEditSegment(index, row){
+                console.log(row)
+                if(row.edit){
+                    this.$axios.patch('/answer/'+row.id+'/segment/'+row.id,{
+                        'session':this.$store.getters.Token,
+                        'data': row.data,
+                        'extra': row.extra,
+                        'score': row.score
+                    }).then((res)=>{
+                        row.edit = false
+                        this.$message.success('done')
+                        this.$set(this.segments,index,row)
+                    }).catch((res)=>{
+                        this.$message.error(res.toString())
+                    })
+                }else {
+                    row.edit=true
+                    console.log(index)
+                    this.$set(this.segments,index,row)
+                }
             }
+
         }
     }
 </script>
