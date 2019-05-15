@@ -40,7 +40,7 @@
             </el-collapse-item>
         </el-collapse>
 
-        <div v-show="showResult" align="left" id="result">
+        <div v-if="showResult" align="left" id="result">
             <h2>Result:</h2>
             <p>result-tag: <el-tag :type="result['tag']">{{result['type_info']}}</el-tag></p>
             <p>your-score: <el-tag :type="result['tag']">{{result['score']}}</el-tag></p>
@@ -49,6 +49,15 @@
             <p>Format Answer: <span>{{result['correct']}}</span></p>
             <p>Right Answer: <span>{{result['right_answer']}}</span></p>
             <p>语法错误: <span style="color:red ;">{{result['syntax_error_msg']}}</span></p>
+            <p>子句:</p>
+            <el-table :data="result['segment_json']['compare']">
+                <el-table-column label="right_segment" prop="right_segment">
+                </el-table-column>
+                <el-table-column label="your_segment" prop="student_segment">
+                </el-table-column>
+                <el-table-column label="deduction" prop="deduction">
+                </el-table-column>
+            </el-table>
         </div>
         <h3>Your Answer?</h3>
         <el-input type="textarea" v-model="answer">
