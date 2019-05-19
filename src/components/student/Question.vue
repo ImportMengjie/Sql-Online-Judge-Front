@@ -50,7 +50,7 @@
             <p>Right Answer: <span>{{result['right_answer']}}</span></p>
             <p>语法错误: <span style="color:red ;">{{result['syntax_error_msg']}}</span></p>
             <p>子句:</p>
-            <el-table :data="result['segment_json']['compare']">
+            <el-table :data="result['segment_json']['compare']" :row-class-name="tableSegmentRowClassName" :row-style="tableSegmentRowClassName">
                 <el-table-column label="right_segment" prop="right_segment">
                 </el-table-column>
                 <el-table-column label="your_segment" prop="student_segment">
@@ -171,6 +171,11 @@
                 }).catch(res=>{
                     this.$message.error(res.toString())
                 })
+            },
+            tableSegmentRowClassName({row, rowIndex}) {
+                if(row.deduction===0) return {'background': 'greenyellow'}
+                else if (row.right_segment==='') return {'background': 'oldlace'}
+                else return {'background': 'red'}
             }
         }
     }
