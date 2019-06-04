@@ -122,7 +122,6 @@
 
             },
             handle_change_question(id){
-                console.log(id)
                 this.set_chart_data(id)
             }
         },

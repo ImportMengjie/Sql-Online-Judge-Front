@@ -40,31 +40,32 @@
             </el-collapse-item>
         </el-collapse>
 
-        <div v-if="showResult" align="left" id="result">
-            <h2>Result:</h2>
-            <p>result-tag: <el-tag :type="result['tag']">{{result['type_info']}}</el-tag></p>
-            <p>your-score: <el-tag :type="result['tag']">{{result['score']}}</el-tag></p>
-            <p>拼写错误统计: {{result['spelling_count']}}</p>
-            <p>Your Answer: <span v-html="result['errorInfo']"></span></p>
-            <p>Format Answer: <span>{{result['correct']}}</span></p>
-            <p>Right Answer: <span>{{result['right_answer']}}</span></p>
-            <p>语法错误: <span style="color:red ;">{{result['syntax_error_msg']}}</span></p>
-            <p>子句:</p>
-            <el-table :data="result['segment_json']['compare']" :row-class-name="tableSegmentRowClassName" :row-style="tableSegmentRowClassName">
-                <el-table-column label="right_segment" prop="right_segment">
-                </el-table-column>
-                <el-table-column label="your_segment" prop="student_segment">
-                </el-table-column>
-                <el-table-column label="deduction" prop="deduction">
-                </el-table-column>
-            </el-table>
-        </div>
         <h3>Your Answer?</h3>
         <el-input type="textarea" v-model="answer">
         </el-input>
         <el-button type="primary" @click="handleSubmit">
             提交
         </el-button>
+
+        <div v-if="showResult" align="left" id="result">
+            <h2>结果:</h2>
+            <p>结果标签: <el-tag :type="result['tag']">{{result['type_info']}}</el-tag></p>
+            <p>你的得分: <el-tag :type="result['tag']">{{result['score']}}</el-tag></p>
+            <p>拼写错误统计: {{result['spelling_count']}}</p>
+            <p>你的答案: <span v-html="result['errorInfo']"></span></p>
+            <p>格式化后的答案: <span>{{result['correct']}}</span></p>
+            <p>正确答案: <span>{{result['right_answer']}}</span></p>
+            <p>语法错误: <span style="color:red ;">{{result['syntax_error_msg']}}</span></p>
+            <p>子句:</p>
+            <el-table :data="result['segment_json']['compare']" :row-class-name="tableSegmentRowClassName" :row-style="tableSegmentRowClassName">
+                <el-table-column label="正确的子句" prop="right_segment">
+                </el-table-column>
+                <el-table-column label="你的子句" prop="student_segment">
+                </el-table-column>
+                <el-table-column label="扣分" prop="deduction">
+                </el-table-column>
+            </el-table>
+        </div>
     </div>
 
 </template>
@@ -84,7 +85,7 @@
                 tableInfo:{},
                 colorMap:{
                     0:'#FFFFFF',
-                    1:'#FF0000',
+                    1:'#FF4500',
                     2:'#008000'
                 }
             }
