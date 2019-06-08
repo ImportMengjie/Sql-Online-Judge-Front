@@ -112,6 +112,7 @@
             },
             getDatabaseList(){
                 this.databaseList=[]
+                this.databaseOptions = []
                 this.$axios.get('/schema',{headers:{'session':this.$store.getters.Token}}).then(res=>{
                     this.databaseList=res.data['data']
                     for(var i=0;i<this.databaseList.length;i++){

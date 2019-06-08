@@ -112,10 +112,6 @@
 
                     this.showResult=true
                     this.result['tag']=this.result['score']===this.questionInfo['score']?'success':'danger'
-                    const anchorEle = document.querySelector("#result");
-                    if (!anchorEle) {
-                        anchorEle.scrollIntoView(true);
-                    }
                 }).catch((res)=>{
                     this.$message.error(res.toString())
                 })
