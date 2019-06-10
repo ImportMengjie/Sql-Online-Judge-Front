@@ -56,6 +56,11 @@
             <p>格式化后的答案: <span>{{result['correct']}}</span></p>
             <p>正确答案: <span>{{result['right_answer']}}</span></p>
             <p>语法错误: <span style="color:red ;">{{result['syntax_error_msg']}}</span></p>
+            <p>结果对比:</p>
+            <el-table :data="result['compare_result']">
+                <el-table-column label="你的结果" prop="your_result"></el-table-column>
+                <el-table-column label="正确的结果" prop="right_result"></el-table-column>
+            </el-table>
             <p>子句:</p>
             <el-table :data="result['segment_json']['compare']" :row-class-name="tableSegmentRowClassName" :row-style="tableSegmentRowClassName">
                 <el-table-column label="正确的子句" prop="right_segment">
